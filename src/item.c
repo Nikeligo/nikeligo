@@ -7,30 +7,25 @@
 #include "malloc.h"
 #include "secret_base.h"
 #include "item_menu.h"
+#include "party_menu.h"
 #include "strings.h"
 #include "load_save.h"
 #include "item_use.h"
 #include "battle_pyramid.h"
 #include "battle_pyramid_bag.h"
-#include "item_icon.h"
-#include "pokemon_summary_screen.h"
-#include "menu.h"
-#include "party_menu.h"
-#include "overworld.h"
+#include "constants/battle.h"
 #include "constants/items.h"
+#include "constants/item_effects.h"
 #include "constants/hold_effects.h"
 
 static bool8 CheckPyramidBagHasItem(u16 itemId, u16 count);
 static bool8 CheckPyramidBagHasSpace(u16 itemId, u16 count);
-static void ShowItemIconSprite(u16 item, bool8 firstTime, bool8 flash);
-static void DestroyItemIconSprite(void);
+static const u8 *ItemId_GetPluralName(u16);
+static bool32 DoesItemHavePluralName(u16);
 
 EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
-EWRAM_DATA static u8 sHeaderBoxWindowId = 0;
-EWRAM_DATA u8 sItemIconSpriteId = 0;
-EWRAM_DATA u8 sItemIconSpriteId2 = 0;
 
-#include "data/text/item_descriptions.h"
+#include "data/pokemon/item_effects.h"
 #include "data/items.h"
 
 static u16 GetBagItemQuantity(u16 *quantity)
@@ -91,37 +86,19 @@ void CopyItemName(u16 itemId, u8 *dst)
     StringCopy(dst, ItemId_GetName(itemId));
 }
 
+const u8 sText_s[] =_("s");
+
 void CopyItemNameHandlePlural(u16 itemId, u8 *dst, u32 quantity)
 {
-    if (itemId == ITEM_POKE_BALL)
-    {
-        if (quantity < 2)
-            StringCopy(dst, ItemId_GetName(ITEM_POKE_BALL));
-        else
-            StringCopy(dst, gText_PokeBalls);
-    }
-    else
-    {
-        if (itemId >= FIRST_BERRY_INDEX && itemId <= LAST_BERRY_INDEX)
-            GetBerryCountString(dst, gBerries[itemId - FIRST_BERRY_INDEX].name, quantity);
-        else
-            StringCopy(dst, ItemId_GetName(itemId));
-    }
-}
-
-void GetBerryCountString(u8 *dst, const u8 *berryName, u32 quantity)
-{
-    const u8 *berryString;
-    u8 *txtPtr;
+    u8 *end = StringCopy(dst, ItemId_GetName(itemId)) - 1;
 
     if (quantity < 2)
-        berryString = gText_Berry;
-    else
-        berryString = gText_Berries;
+        return;
 
-    txtPtr = StringCopy(dst, berryName);
-    *txtPtr = CHAR_SPACE;
-    StringCopy(txtPtr + 1, berryString);
+    if (DoesItemHavePluralName(itemId))
+        StringCopy(dst, ItemId_GetPluralName(itemId));
+    else
+        StringAppend(end, sText_s);
 }
 
 bool8 IsBagPocketNonEmpty(u8 pocket)
@@ -169,7 +146,7 @@ bool8 HasAtLeastOneBerry(void)
 {
     u16 i;
 
-    for (i = FIRST_BERRY_INDEX; i < ITEM_BRIGHT_POWDER; i++)
+    for (i = FIRST_BERRY_INDEX; i <= LAST_BERRY_INDEX; i++)
     {
         if (CheckBagHasItem(i, 1) == TRUE)
         {
@@ -183,24 +160,24 @@ bool8 HasAtLeastOneBerry(void)
 
 bool8 CheckBagHasSpace(u16 itemId, u16 count)
 {
-    u8 i;
-    u8 pocket;
-    u16 slotCapacity;
-    u16 ownedCount;
-
     if (ItemId_GetPocket(itemId) == POCKET_NONE)
         return FALSE;
 
     if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
-    {
         return CheckPyramidBagHasSpace(itemId, count);
-    }
 
-    pocket = ItemId_GetPocket(itemId) - 1;
-    if (pocket != BERRIES_POCKET)
-        slotCapacity = MAX_BAG_ITEM_CAPACITY;
-    else
-        slotCapacity = MAX_BERRY_CAPACITY;
+    return GetFreeSpaceForItemInBag(itemId) >= count;
+}
+
+u32 GetFreeSpaceForItemInBag(u16 itemId)
+{
+    u8 i;
+    u8 pocket = ItemId_GetPocket(itemId) - 1;
+    u16 ownedCount;
+    u32 spaceForItem = 0;
+
+    if (ItemId_GetPocket(itemId) == POCKET_NONE)
+        return 0;
 
     // Check space in any existing item slots that already contain this item
     for (i = 0; i < gBagPockets[pocket].capacity; i++)
@@ -208,41 +185,14 @@ bool8 CheckBagHasSpace(u16 itemId, u16 count)
         if (gBagPockets[pocket].itemSlots[i].itemId == itemId)
         {
             ownedCount = GetBagItemQuantity(&gBagPockets[pocket].itemSlots[i].quantity);
-            if (ownedCount + count <= slotCapacity)
-                return TRUE;
-            if (pocket == TMHM_POCKET || pocket == BERRIES_POCKET)
-                return FALSE;
-            count -= (slotCapacity - ownedCount);
-            if (count == 0)
-                break; //should be return TRUE, but that doesn't match
+            spaceForItem += max(0, MAX_BAG_ITEM_CAPACITY - ownedCount);
         }
-    }
-
-    // Check space in empty item slots
-    if (count > 0)
-    {
-        for (i = 0; i < gBagPockets[pocket].capacity; i++)
+        else if (gBagPockets[pocket].itemSlots[i].itemId == ITEM_NONE)
         {
-            if (gBagPockets[pocket].itemSlots[i].itemId == 0)
-            {
-                if (count > slotCapacity)
-                {
-                    if (pocket == TMHM_POCKET || pocket == BERRIES_POCKET)
-                        return FALSE;
-                    count -= slotCapacity;
-                }
-                else
-                {
-                    count = 0; //should be return TRUE, but that doesn't match
-                    break;
-                }
-            }
+            spaceForItem += MAX_BAG_ITEM_CAPACITY;
         }
-        if (count > 0)
-            return FALSE; // No more item slots. The bag is full
     }
-
-    return TRUE;
+    return spaceForItem;
 }
 
 bool8 AddBagItem(u16 itemId, u16 count)
@@ -261,7 +211,6 @@ bool8 AddBagItem(u16 itemId, u16 count)
     {
         struct BagPocket *itemPocket;
         struct ItemSlot *newItems;
-        u16 slotCapacity;
         u16 ownedCount;
         u8 pocket = ItemId_GetPocket(itemId) - 1;
 
@@ -269,18 +218,13 @@ bool8 AddBagItem(u16 itemId, u16 count)
         newItems = AllocZeroed(itemPocket->capacity * sizeof(struct ItemSlot));
         memcpy(newItems, itemPocket->itemSlots, itemPocket->capacity * sizeof(struct ItemSlot));
 
-        if (pocket != BERRIES_POCKET)
-            slotCapacity = MAX_BAG_ITEM_CAPACITY;
-        else
-            slotCapacity = MAX_BERRY_CAPACITY;
-
         for (i = 0; i < itemPocket->capacity; i++)
         {
             if (newItems[i].itemId == itemId)
             {
                 ownedCount = GetBagItemQuantity(&newItems[i].quantity);
                 // check if won't exceed max slot capacity
-                if (ownedCount + count <= slotCapacity)
+                if (ownedCount + count <= MAX_BAG_ITEM_CAPACITY)
                 {
                     // successfully added to already existing item's count
                     SetBagItemQuantity(&newItems[i].quantity, ownedCount + count);
@@ -298,8 +242,8 @@ bool8 AddBagItem(u16 itemId, u16 count)
                     }
                     else
                     {
-                        count -= slotCapacity - ownedCount;
-                        SetBagItemQuantity(&newItems[i].quantity, slotCapacity);
+                        count -= MAX_BAG_ITEM_CAPACITY - ownedCount;
+                        SetBagItemQuantity(&newItems[i].quantity, MAX_BAG_ITEM_CAPACITY);
                         // don't create another instance of the item if it's at max slot capacity and count is equal to 0
                         if (count == 0)
                         {
@@ -319,7 +263,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
                 if (newItems[i].itemId == ITEM_NONE)
                 {
                     newItems[i].itemId = itemId;
-                    if (count > slotCapacity)
+                    if (count > MAX_BAG_ITEM_CAPACITY)
                     {
                         // try creating a new slot with max capacity if duplicates are possible
                         if (pocket == TMHM_POCKET || pocket == BERRIES_POCKET)
@@ -327,8 +271,8 @@ bool8 AddBagItem(u16 itemId, u16 count)
                             Free(newItems);
                             return FALSE;
                         }
-                        count -= slotCapacity;
-                        SetBagItemQuantity(&newItems[i].quantity, slotCapacity);
+                        count -= MAX_BAG_ITEM_CAPACITY;
+                        SetBagItemQuantity(&newItems[i].quantity, MAX_BAG_ITEM_CAPACITY);
                     }
                     else
                     {
@@ -697,7 +641,11 @@ static bool8 CheckPyramidBagHasItem(u16 itemId, u16 count)
 {
     u8 i;
     u16 *items = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
+#if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
+    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+#else
     u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+#endif
 
     for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
     {
@@ -719,16 +667,20 @@ static bool8 CheckPyramidBagHasSpace(u16 itemId, u16 count)
 {
     u8 i;
     u16 *items = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
+#if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
+    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+#else
     u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+#endif
 
     for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
     {
         if (items[i] == itemId || items[i] == ITEM_NONE)
         {
-            if (quantities[i] + count <= MAX_BAG_ITEM_CAPACITY)
+            if (quantities[i] + count <= MAX_PYRAMID_BAG_ITEM_CAPACITY)
                 return TRUE;
 
-            count = (quantities[i] + count) - MAX_BAG_ITEM_CAPACITY;
+            count = (quantities[i] + count) - MAX_PYRAMID_BAG_ITEM_CAPACITY;
             if (count == 0)
                 return TRUE;
         }
@@ -742,23 +694,28 @@ bool8 AddPyramidBagItem(u16 itemId, u16 count)
     u16 i;
 
     u16 *items = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
-    u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
-
     u16 *newItems = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));
+
+#if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
+    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+    u16 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
+#else
+    u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
     u8 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
+#endif
 
     memcpy(newItems, items, PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));
     memcpy(newQuantities, quantities, PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
 
     for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
     {
-        if (newItems[i] == itemId && newQuantities[i] < MAX_BAG_ITEM_CAPACITY)
+        if (newItems[i] == itemId && newQuantities[i] < MAX_PYRAMID_BAG_ITEM_CAPACITY)
         {
             newQuantities[i] += count;
-            if (newQuantities[i] > MAX_BAG_ITEM_CAPACITY)
+            if (newQuantities[i] > MAX_PYRAMID_BAG_ITEM_CAPACITY)
             {
-                count = newQuantities[i] - MAX_BAG_ITEM_CAPACITY;
-                newQuantities[i] = MAX_BAG_ITEM_CAPACITY;
+                count = newQuantities[i] - MAX_PYRAMID_BAG_ITEM_CAPACITY;
+                newQuantities[i] = MAX_PYRAMID_BAG_ITEM_CAPACITY;
             }
             else
             {
@@ -778,10 +735,10 @@ bool8 AddPyramidBagItem(u16 itemId, u16 count)
             {
                 newItems[i] = itemId;
                 newQuantities[i] = count;
-                if (newQuantities[i] > MAX_BAG_ITEM_CAPACITY)
+                if (newQuantities[i] > MAX_PYRAMID_BAG_ITEM_CAPACITY)
                 {
-                    count = newQuantities[i] - MAX_BAG_ITEM_CAPACITY;
-                    newQuantities[i] = MAX_BAG_ITEM_CAPACITY;
+                    count = newQuantities[i] - MAX_PYRAMID_BAG_ITEM_CAPACITY;
+                    newQuantities[i] = MAX_PYRAMID_BAG_ITEM_CAPACITY;
                 }
                 else
                 {
@@ -815,7 +772,11 @@ bool8 RemovePyramidBagItem(u16 itemId, u16 count)
     u16 i;
 
     u16 *items = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
+#if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
+    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+#else
     u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
+#endif
 
     i = gPyramidBagMenuState.cursorPosition + gPyramidBagMenuState.scrollPosition;
     if (items[i] == itemId && quantities[i] >= count)
@@ -828,7 +789,11 @@ bool8 RemovePyramidBagItem(u16 itemId, u16 count)
     else
     {
         u16 *newItems = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));
+    #if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
+        u16 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
+    #else
         u8 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
+    #endif
 
         memcpy(newItems, items, PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));
         memcpy(newQuantities, quantities, PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
@@ -883,258 +848,147 @@ static u16 SanitizeItemId(u16 itemId)
 
 const u8 *ItemId_GetName(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].name;
+    if (DECAP_ENABLED && DECAP_MIRRORING && !DECAP_ITEM_NAMES)
+        return ROM_MIRROR_PTR(gItemsInfo[SanitizeItemId(itemId)].name);
+    else
+        return gItemsInfo[SanitizeItemId(itemId)].name;
 }
 
-// Unused
-u16 ItemId_GetId(u16 itemId)
+u32 ItemId_GetPrice(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].itemId;
+    return gItemsInfo[SanitizeItemId(itemId)].price;
 }
 
-u16 ItemId_GetPrice(u16 itemId)
+static bool32 DoesItemHavePluralName(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].price;
+    return (gItemsInfo[SanitizeItemId(itemId)].pluralName[0] != '\0');
 }
 
-u8 ItemId_GetHoldEffect(u16 itemId)
+static const u8 *ItemId_GetPluralName(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].holdEffect;
+    return gItemsInfo[SanitizeItemId(itemId)].pluralName;
 }
 
-u8 ItemId_GetHoldEffectParam(u16 itemId)
+const u8 *ItemId_GetEffect(u32 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].holdEffectParam;
+    if (itemId == ITEM_ENIGMA_BERRY_E_READER)
+    #if FREE_ENIGMA_BERRY == FALSE
+        return gSaveBlock1Ptr->enigmaBerry.itemEffect;
+    #else
+        return 0;
+    #endif //FREE_ENIGMA_BERRY
+    else
+        return gItemsInfo[SanitizeItemId(itemId)].effect;
+}
+
+u32 ItemId_GetHoldEffect(u32 itemId)
+{
+    return gItemsInfo[SanitizeItemId(itemId)].holdEffect;
+}
+
+u32 ItemId_GetHoldEffectParam(u32 itemId)
+{
+    return gItemsInfo[SanitizeItemId(itemId)].holdEffectParam;
 }
 
 const u8 *ItemId_GetDescription(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].description;
+    return gItemsInfo[SanitizeItemId(itemId)].description;
 }
 
 u8 ItemId_GetImportance(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].importance;
-}
-
-// Unused
-u8 ItemId_GetRegistrability(u16 itemId)
-{
-    return gItems[SanitizeItemId(itemId)].registrability;
+    return gItemsInfo[SanitizeItemId(itemId)].importance;
 }
 
 u8 ItemId_GetPocket(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].pocket;
+    return gItemsInfo[SanitizeItemId(itemId)].pocket;
 }
 
 u8 ItemId_GetType(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].type;
+    return gItemsInfo[SanitizeItemId(itemId)].type;
 }
 
 ItemUseFunc ItemId_GetFieldFunc(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].fieldUseFunc;
+    return gItemsInfo[SanitizeItemId(itemId)].fieldUseFunc;
 }
 
+// Returns an item's battle effect script ID.
 u8 ItemId_GetBattleUsage(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].battleUsage;
-}
-
-ItemUseFunc ItemId_GetBattleFunc(u16 itemId)
-{
-    return gItems[SanitizeItemId(itemId)].battleUseFunc;
+    u16 item = SanitizeItemId(itemId);
+    // Handle E-Reader berries.
+    if (item == ITEM_ENIGMA_BERRY_E_READER)
+    {
+        switch (GetItemEffectType(gSpecialVar_ItemId))
+        {
+            case ITEM_EFFECT_X_ITEM:
+                return EFFECT_ITEM_INCREASE_STAT;
+            case ITEM_EFFECT_HEAL_HP:
+                return EFFECT_ITEM_RESTORE_HP;
+            case ITEM_EFFECT_CURE_POISON:
+            case ITEM_EFFECT_CURE_SLEEP:
+            case ITEM_EFFECT_CURE_BURN:
+            case ITEM_EFFECT_CURE_FREEZE_FROSTBITE:
+            case ITEM_EFFECT_CURE_PARALYSIS:
+            case ITEM_EFFECT_CURE_ALL_STATUS:
+            case ITEM_EFFECT_CURE_CONFUSION:
+            case ITEM_EFFECT_CURE_INFATUATION:
+                return EFFECT_ITEM_CURE_STATUS;
+            case ITEM_EFFECT_HEAL_PP:
+                return EFFECT_ITEM_RESTORE_PP;
+            default:
+                return 0;
+        }
+    }
+    else
+        return gItemsInfo[item].battleUsage;
 }
 
 u8 ItemId_GetSecondaryId(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].secondaryId;
+    return gItemsInfo[SanitizeItemId(itemId)].secondaryId;
 }
 
-// Item Description Header
-bool8 GetSetItemObtained(u16 item, u8 caseId)
+u32 ItemId_GetFlingPower(u32 itemId)
 {
-    u8 index;
-    u8 bit;
-    u8 mask;
+    return gItemsInfo[SanitizeItemId(itemId)].flingPower;
+}
 
-    index = item / 8;
-    bit = item % 8;
-    mask = 1 << bit;
-    switch (caseId)
+
+u32 GetItemStatus1Mask(u16 itemId)
+{
+    const u8 *effect = ItemId_GetEffect(itemId);
+    switch (effect[3])
     {
-    case FLAG_GET_OBTAINED:
-        return gSaveBlock2Ptr->itemFlags[index] & mask;
-    case FLAG_SET_OBTAINED:
-        gSaveBlock2Ptr->itemFlags[index] |= mask;
-        return TRUE;
+        case ITEM3_PARALYSIS:
+            return STATUS1_PARALYSIS;
+        case ITEM3_FREEZE:
+            return STATUS1_FREEZE | STATUS1_FROSTBITE;
+        case ITEM3_BURN:
+            return STATUS1_BURN;
+        case ITEM3_POISON:
+            return STATUS1_PSN_ANY | STATUS1_TOXIC_COUNTER;
+        case ITEM3_SLEEP:
+            return STATUS1_SLEEP;
+        case ITEM3_STATUS_ALL:
+            return STATUS1_ANY | STATUS1_TOXIC_COUNTER;
     }
-
-    return FALSE;
+    return 0;
 }
 
-static u8 ReformatItemDescription(u16 item, u8 *dest)
+u32 GetItemStatus2Mask(u16 itemId)
 {
-    u8 count = 0;
-    u8 numLines = 1;
-    u8 maxChars = 32;
-    u8 *desc = (u8 *)gItems[item].description;
-
-    while (*desc != EOS)
-    {
-        if (count >= maxChars)
-        {
-            while (*desc != CHAR_SPACE && *desc != CHAR_NEWLINE)
-            {
-                *dest = *desc;  //finish word
-                dest++;
-                desc++;
-            }
-
-            *dest = CHAR_NEWLINE;
-            count = 0;
-            numLines++;
-            dest++;
-            desc++;
-            continue;
-        }
-
-        *dest = *desc;
-        if (*desc == CHAR_NEWLINE)
-        {
-            *dest = CHAR_SPACE;
-        }
-
-        dest++;
-        desc++;
-        count++;
-    }
-
-    // finish string
-    *dest = EOS;
-    return numLines;
-}
-
-#define ITEM_ICON_X 26
-#define ITEM_ICON_Y 24
-void DrawHeaderBox(void)
-{
-    struct WindowTemplate template;
-    u16 item = gSpecialVar_0x8006;
-    u8 headerType = gSpecialVar_0x8009;
-    u8 textY;
-    u8 *dst;
-    bool8 handleFlash = FALSE;
-    
-    if (GetFlashLevel() > 0 || InBattlePyramid_())
-        handleFlash = TRUE;
-
-    if (headerType == 1)
-        dst = gStringVar3;
+    const u8 *effect = ItemId_GetEffect(itemId);
+    if (effect[3] & ITEM3_STATUS_ALL)
+        return STATUS2_INFATUATION | STATUS2_CONFUSION;
+    else if (effect[0] & ITEM0_INFATUATION)
+        return STATUS2_INFATUATION;
+    else if (effect[3] & ITEM3_CONFUSION)
+        return STATUS2_CONFUSION;
     else
-        dst = gStringVar1;
-
-    if (GetSetItemObtained(item, FLAG_GET_OBTAINED))
-    {
-        ShowItemIconSprite(item, FALSE, handleFlash);
-        return; //no box if item obtained previously
-    }
-
-    SetWindowTemplateFields(&template, 0, 1, 1, 28, 3, 15, 8);
-    sHeaderBoxWindowId = AddWindow(&template);
-    FillWindowPixelBuffer(sHeaderBoxWindowId, PIXEL_FILL(0));
-    PutWindowTilemap(sHeaderBoxWindowId);
-    CopyWindowToVram(sHeaderBoxWindowId, 3);
-    SetStandardWindowBorderStyle(sHeaderBoxWindowId, FALSE);
-    DrawStdFrameWithCustomTileAndPalette(sHeaderBoxWindowId, FALSE, 0x214, 14);
-
-    if (ReformatItemDescription(item, dst) == 1)
-        textY = 4;
-    else
-        textY = 0;
-
-    ShowItemIconSprite(item, TRUE, handleFlash);
-    AddTextPrinterParameterized(sHeaderBoxWindowId, 0, dst, ITEM_ICON_X + 2, textY, 0, NULL);
-}
-
-void HideHeaderBox(void)
-{
-    DestroyItemIconSprite();
-
-    if (!GetSetItemObtained(gSpecialVar_0x8006, FLAG_GET_OBTAINED))
-    {
-        //header box only exists if haven't seen item before
-        GetSetItemObtained(gSpecialVar_0x8006, FLAG_SET_OBTAINED);
-        ClearStdWindowAndFrameToTransparent(sHeaderBoxWindowId, FALSE);
-        CopyWindowToVram(sHeaderBoxWindowId, 3);
-        RemoveWindow(sHeaderBoxWindowId);
-    }
-}
-
-#include "gpu_regs.h"
-
-#define ITEM_TAG 0x2722 //same as money label
-static void ShowItemIconSprite(u16 item, bool8 firstTime, bool8 flash)
-{
-    s16 x, y;
-    u8 iconSpriteId;   
-    u8 spriteId2 = MAX_SPRITES;
-
-    if (flash)
-    {
-        SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
-        SetGpuRegBits(REG_OFFSET_WINOUT, WINOUT_WINOBJ_OBJ);
-    }
-
-    iconSpriteId = AddItemIconSprite(ITEM_TAG, ITEM_TAG, item);
-    if (flash)
-        spriteId2 = AddItemIconSprite(ITEM_TAG, ITEM_TAG, item);
-    if (iconSpriteId != MAX_SPRITES)
-    {
-        if (!firstTime)
-        {
-            //show in message box
-            x = 213;
-            y = 140;
-        }
-        else
-        {
-            // show in header box
-            x = ITEM_ICON_X;
-            y = ITEM_ICON_Y;
-        }
-
-        gSprites[iconSpriteId].x2 = x;
-        gSprites[iconSpriteId].y2 = y;
-        gSprites[iconSpriteId].oam.priority = 0;
-    }
-
-    if (spriteId2 != MAX_SPRITES)
-    {
-        gSprites[spriteId2].x2 = x;
-        gSprites[spriteId2].y2 = y;
-        gSprites[spriteId2].oam.priority = 0;
-        gSprites[spriteId2].oam.objMode = ST_OAM_OBJ_WINDOW;
-        sItemIconSpriteId2 = spriteId2;
-    }
-
-    sItemIconSpriteId = iconSpriteId;
-}
-
-static void DestroyItemIconSprite(void)
-{
-    FreeSpriteTilesByTag(ITEM_TAG);
-    FreeSpritePaletteByTag(ITEM_TAG);
-    FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId]);
-    DestroySprite(&gSprites[sItemIconSpriteId]);
-
-    if ((GetFlashLevel() > 0 || InBattlePyramid_()) && sItemIconSpriteId2 != MAX_SPRITES)
-    {
-        //FreeSpriteTilesByTag(ITEM_TAG);
-        //FreeSpritePaletteByTag(ITEM_TAG);
-        FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId2]);
-        DestroySprite(&gSprites[sItemIconSpriteId2]);
-    }
+        return 0;
 }
