@@ -5,9 +5,9 @@
 #define OW_RUNNING_INDOORS          GEN_LATEST  // In Gen4+, players are allowed to run indoors.
 
 // Other settings
-#define OW_POISON_DAMAGE                GEN_LATEST // In Gen4, Pokémon no longer faint from Poison in the overworld. In Gen5+, they no longer take damage at all.
+#define OW_POISON_DAMAGE                GEN_4 // In Gen4, Pokémon no longer faint from Poison in the overworld. In Gen5+, they no longer take damage at all.
 #define OW_TIMES_OF_DAY                 GEN_LATEST // Different generations have the times of day change at different times.
-#define OW_DOUBLE_APPROACH_WITH_ONE_MON FALSE      // If enabled, you can be spotted by two trainers at the same time even if you only have one eligible Pokémon in your party.
+#define OW_DOUBLE_APPROACH_WITH_ONE_MON TRUE      // If enabled, you can be spotted by two trainers at the same time even if you only have one eligible Pokémon in your party.
 
 // PC settings
 #define OW_PC_PRESS_B               GEN_LATEST // In Gen4, pressing B when holding a Pokémon is equivalent to placing it. In Gen3, it gives the "You're holding a Pokémon!" error.
@@ -28,7 +28,7 @@
 #define OW_BERRY_PESTS                 FALSE      // If enabled, pests may approach Berry plants that the player needs to take care of. Without OW_BERRY_MOISTURE, pest bonuses are rounded down.
 #define OW_BERRY_SIX_STAGES            FALSE      // In XY, Berries go through six stages instead of four. This toggle does not affect the time it takes for a tree to be ready for harvest. Without OW_BERRY_MOISTURE, the two extra stages count as BERRY_STAGE_TALLER for watering purposes.
 
-#define OW_BERRY_GROWTH_RATE           GEN_3      // Presets for how long each Berry plant takes to grow.
+#define OW_BERRY_GROWTH_RATE           GEN_3     // Presets for how long each Berry plant takes to grow.
 #define OW_BERRY_YIELD_RATE            GEN_3      // Presets for how many Berries each plant can yield.
 #define OW_BERRY_DRAIN_RATE            GEN_6_ORAS // If OW_BERRY_MOISTURE is enabled, this setting changes how fast the soil dries out. GEN_4 uses a Berry-dependent drain rate, GEN_6_XY dries out in 24 hours (4 hours with the relevant Mulch) and GEN_6_ORAS dries out in 4 hours. Other values are illegal.
 
