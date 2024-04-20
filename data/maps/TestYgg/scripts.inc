@@ -8,6 +8,7 @@ TestYgg_EventScript_ArkeeStarters::
 	setflag FLAG_SYS_POKEMON_GET
 	setflag FLAG_SYS_POKEDEX_GET 
 	setflag FLAG_SYS_NATIONAL_DEX
+	setvar 0x40F8, 11
 	removeobject 1
 	release
 	end
@@ -23,6 +24,16 @@ TestYgg_EventScript_OldManBalls::
 	release
 	end
 
+TestYgg_EventScript_OldManCandy::
+	lock
+	faceplayer
+	msgbox Text_OldManCandyGreeting, MSGBOX_NPC
+	giveitem ITEM_RARE_CANDY, 10
+	compare VAR_RESULT, FALSE
+	goto_if_eq Script_BagIsFull
+	release
+	end
+
 Script_BagIsFull::
 	msgbox Text_BagIsFull, MSGBOX_DEFAULT
 	release
@@ -31,6 +42,11 @@ Script_BagIsFull::
 Text_OldManBallsGreeting::
 	.string "Hey, kid...\n"
 	.string "want some balls?$"
+
+Text_OldManCandyGreeting::
+	.string "Hey, kid...\n"
+	.string "want some candy?$"
+
 
 
 Text_BagIsFull:
