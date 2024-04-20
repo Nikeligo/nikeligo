@@ -126,7 +126,7 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-    SetWarpDestination(MAP_GROUP(TEST_YGG), MAP_NUM(TEST_YGG), -1, 6, 18);
+    SetWarpDestination(MAP_GROUP(SOOTOPOLIS_CITY_HOUSE1), MAP_NUM(SOOTOPOLIS_CITY_HOUSE1), -1, -1, -1);
     WarpIntoMap();
 }
 
