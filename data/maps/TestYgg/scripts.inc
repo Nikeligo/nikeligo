@@ -13,3 +13,25 @@ TestYgg_EventScript_ArkeeStarters::
 	end
 
 
+TestYgg_EventScript_OldManBalls::
+	lock
+	faceplayer
+	msgbox Text_OldManBallsGreeting, MSGBOX_NPC
+	giveitem ITEM_POKE_BALL, 10
+	compare VAR_RESULT, FALSE
+	goto_if_eq Script_BagIsFull
+	release
+	end
+
+Script_BagIsFull::
+	msgbox Text_BagIsFull, MSGBOX_DEFAULT
+	release
+	end
+
+Text_OldManBallsGreeting::
+	.string "Hey, kid...\n"
+	.string "want some balls?$"
+
+
+Text_BagIsFull:
+	.string "Your BAG is full.$"
