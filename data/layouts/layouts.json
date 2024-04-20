@@ -4420,6 +4420,26 @@
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/TestYgg/border.bin",
       "blockdata_filepath": "data/layouts/TestYgg/map.bin"
+    },
+    {
+      "id": "LAYOUT_LIFE_TREE",
+      "name": "LifeTree_Layout",
+      "width": 40,
+      "height": 30,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Petalburg",
+      "border_filepath": "data/layouts/LifeTree/border.bin",
+      "blockdata_filepath": "data/layouts/LifeTree/map.bin"
+    },
+    {
+      "id": "LAYOUT_BELOW_WET",
+      "name": "BelowWet_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Slateport",
+      "border_filepath": "data/layouts/BelowWet/border.bin",
+      "blockdata_filepath": "data/layouts/BelowWet/map.bin"
     }
   ]
 }

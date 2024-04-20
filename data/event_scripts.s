@@ -1074,3 +1074,7 @@ EventScript_VsSeekerChargingDone::
 	.include "data/text/birch_speech.inc"
 
 	.include "data/maps/TestYgg/scripts.inc"
+
+	.include "data/maps/LifeTree/scripts.inc"
+
+	.include "data/maps/BelowWet/scripts.inc"

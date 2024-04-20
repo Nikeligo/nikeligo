@@ -11493,70 +11493,70 @@
           }
         },
         {
-          "map": "MAP_TEST_YGG",
-          "base_label": "gTestYgg0",
+          "map": "MAP_LIFE_TREE",
+          "base_label": "gLifeTree0",
           "land_mons": {
             "encounter_rate": 10,
             "mons": [
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_OGERPON"
+                "species": "SPECIES_FLETCHLING"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_CHARIZARD"
+                "species": "SPECIES_FLETCHLING"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_FEEBAS"
+                "species": "SPECIES_WOOLOO"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_EEVEE"
+                "species": "SPECIES_WOOLOO"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_MEGANIUM"
+                "species": "SPECIES_TEDDIURSA"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_FENNEKIN"
+                "species": "SPECIES_TEDDIURSA"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_FENNEKIN"
+                "species": "SPECIES_WOOLOO"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_MEGANIUM"
+                "species": "SPECIES_TEDDIURSA"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_EEVEE_GIGANTAMAX"
+                "species": "SPECIES_TEDDIURSA"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_EEVEE_PARTNER"
+                "species": "SPECIES_WOOLOO"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_FEEBAS"
+                "species": "SPECIES_TEDDIURSA"
               },
               {
-                "min_level": 5,
+                "min_level": 2,
                 "max_level": 5,
-                "species": "SPECIES_CHARIZARD_MEGA_X"
+                "species": "SPECIES_WOOLOO"
               }
             ]
           }
