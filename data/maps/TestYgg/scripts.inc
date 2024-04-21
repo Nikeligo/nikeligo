@@ -8,7 +8,7 @@ TestYgg_EventScript_ArkeeStarters::
 	setflag FLAG_SYS_POKEMON_GET
 	setflag FLAG_SYS_POKEDEX_GET 
 	setflag FLAG_SYS_NATIONAL_DEX
-	setvar 0x40F8, 11
+	setvar 0x40F8, 20
 	removeobject 1
 	release
 	end
@@ -57,6 +57,8 @@ TestYgg_EventScript_FireGymOne::
 	msgbox TestYgg_Text_FireGymOneYesNo, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq TestYgg_EventScript_PlayerAnsweredNo
+	setweather WEATHER_DROUGHT
+	doweather
 	trainerbattle_single TRAINER_FIREGYMONE, TestYgg_Text_FireGymOneIntro, TestYgg_Text_FireGymOneDefeat
 	msgbox TestYgg_Text_FireGymOnePostBattle, MSGBOX_AUTOCLOSE
 	end
