@@ -47,7 +47,7 @@ Text_OldManCandyGreeting::
 	.string "Hey, kid...\n"
 	.string "want some candy?$"
 
-
-
 Text_BagIsFull:
 	.string "Your BAG is full.$"
+
+
