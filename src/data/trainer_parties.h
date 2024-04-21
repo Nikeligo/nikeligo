@@ -5,15 +5,15 @@ static const struct TrainerMon sParty_TimmyTurner[] = {
     .species = SPECIES_PURRLOIN,
 	.heldItem = ITEM_NORMAL_GEM,
 	.moves = {MOVE_FAKE_OUT, MOVE_YAWN, MOVE_PURSUIT, MOVE_QUICK_ATTACK},
-	.ability = {ABILITY_UNBURDEN}	
-    }
+	.ability = ABILITY_UNBURDEN
+    },
 	{
 	.iv = 0,
     .lvl = 8,
     .species = SPECIES_SOBBLE,
 	.heldItem = ITEM_ORAN_BERRY,
 	.moves = {MOVE_WATER_GUN, MOVE_TACKLE},
-	.ability = {ABILITY_SNIPER}	
+	.ability = ABILITY_SNIPER
     }
 };
 
