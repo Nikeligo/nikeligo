@@ -4,7 +4,7 @@ LifeTree_MapScripts::
 
 
 LifeTree_EventScript_TestTimmyTurner::
-	trainerbattle_single TRAINER_TESTTIMMYTURNER, LifeTree_Text_TestTimmyTurnerIntro, LifeTree_Text_TestTimmyTurnerDefeated
+	trainerbattle_single TRAINER_TIMMYTURNER, LifeTree_Text_TestTimmyTurnerIntro, LifeTree_Text_TestTimmyTurnerDefeated
 	msgbox LifeTree_Text_TestTimmyTurnerPostBattle, MSGBOX_AUTOCLOSE
 	end
 

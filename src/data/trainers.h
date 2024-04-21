@@ -12,7 +12,7 @@ const struct Trainer gTrainers[] = {
         .party = NULL,
     },
 
-    [TRAINER_TESTTIMMYTURNER] =
+    [TRAINER_TIMMYTURNER] =
     {
         .trainerClass = TRAINER_CLASS_SCHOOL_KID,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_HIKER,
@@ -21,7 +21,7 @@ const struct Trainer gTrainers[] = {
         .items = {},
         .doubleBattle = FALSE,
         .aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY,
-        .party = TRAINER_PARTY(sParty_TestTimmyTurner),
+        .party = TRAINER_PARTY(sParty_TimmyTurner),
     },
 
     [TRAINER_GRUNT_AQUA_HIDEOUT_1] =

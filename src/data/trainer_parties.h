@@ -1,4 +1,4 @@
-static const struct TrainerMon sParty_TestTimmyTurner[] = {
+static const struct TrainerMon sParty_TimmyTurner[] = {
     {
 	.iv = 0,
     .lvl = 8,
