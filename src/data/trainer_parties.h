@@ -17,10 +17,46 @@ static const struct TrainerMon sParty_TimmyTurner[] = {
     }
 };
 
-static const struct TrainerMon sParty_GruntAquaHideout1[] = {
+static const struct TrainerMon sParty_FireGymOne[] = {
     {
-    .lvl = 32,
-    .species = SPECIES_POOCHYENA,
+	.iv = 16,
+    .lvl = 19,
+    .species = SPECIES_TORRACAT,
+	.heldItem = ITEM_MUSCLE_BAND,
+	.moves = {MOVE_FAKE_OUT, MOVE_PARTING_SHOT, MOVE_FIRE_FANG, MOVE_BITE},
+	.ability = ABILITY_INTIMIDATE
+    },
+	{
+	.iv = 16,
+    .lvl = 19,
+    .species = SPECIES_CHARMELEON,
+	.heldItem = ITEM_WISE_GLASSES,
+	.moves = {MOVE_FIRE_SPIN, MOVE_INCINERATE, MOVE_DRAGON_BREATH, MOVE_ANCIENT_POWER},
+	.ability = ABILITY_SOLAR_POWER
+    },
+	{
+	.iv = 16,
+    .lvl = 19,
+    .species = SPECIES_QUILAVA,
+	.heldItem = ITEM_SALAC_BERRY,
+	.moves = {MOVE_TEMPER_FLARE, MOVE_FLAME_WHEEL, MOVE_WILL_O_WISP, MOVE_QUICK_ATTACK},
+	.ability = ABILITY_BLAZE
+    },
+	{
+	.iv = 16,
+    .lvl = 19,
+    .species = SPECIES_BRAIXEN,
+	.heldItem = ITEM_SITRUS_BERRY,
+	.moves = {MOVE_CALM_MIND, MOVE_STORED_POWER, MOVE_FOUL_PLAY, MOVE_BURNING_JEALOUSY},
+	.ability = ABILITY_MAGIC_GUARD
+    },
+	{
+	.iv = 16,
+    .lvl = 20,
+    .species = SPECIES_FLAREON,
+	.heldItem = ITEM_TOXIC_ORB,
+	.moves = {MOVE_FACADE, MOVE_FIRE_FANG, MOVE_TEMPER_FLARE, MOVE_TRAILBLAZE},
+	.ability = ABILITY_GUTS
     }
 };
 

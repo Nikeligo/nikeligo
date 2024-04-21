@@ -51,3 +51,38 @@ Text_BagIsFull:
 	.string "Your BAG is full.$"
 
 
+
+
+TestYgg_EventScript_FireGymOne::
+	msgbox TestYgg_Text_FireGymOneYesNo, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq TestYgg_EventScript_PlayerAnsweredNo
+	trainerbattle_single TRAINER_FIREGYMONE, TestYgg_Text_FireGymOneIntro, TestYgg_Text_FireGymOneDefeat
+	msgbox TestYgg_Text_FireGymOnePostBattle, MSGBOX_AUTOCLOSE
+	end
+
+TestYgg_EventScript_PlayerAnsweredNo::
+	msgbox TestYgg_Text_PlayerAnsweredNo, MSGBOX_DEFAULT
+	release
+	end
+
+
+TestYgg_Text_FireGymOneYesNo:
+	.string "Fight the fire\n"
+	.string "gym?$"
+
+TestYgg_Text_PlayerAnsweredNo:
+	.string "DAMN$"
+
+
+TestYgg_Text_FireGymOneIntro:
+	.string "FIRE$"
+
+TestYgg_Text_FireGymOneDefeat:
+	.string "DAMN$"
+
+TestYgg_Text_FireGymOnePostBattle:
+	.string "Nice.$"
+
+
+

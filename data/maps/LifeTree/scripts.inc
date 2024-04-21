@@ -17,9 +17,10 @@ LifeTree_Text_TestTimmyTurnerDefeated:
 LifeTree_Text_TestTimmyTurnerPostBattle:
 	.string "I FIND YOU\n"
 	.string "RATHER FEMININE\l"
-	.string "TIMMY TURNER\n"
+	.string "TIMMY TURNER\l"
 	.string "SO I GIVE YOU AN F\l"
 	.string "FOR FEMBOY\l"
-	.string "FAIRY\n"
-	.string "COCK\n"
+	.string "FAIRY\l"
+	.string "COCK\l"
 	.string "PARENTS$"
+
