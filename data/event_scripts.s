@@ -1078,3 +1078,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/LifeTree/scripts.inc"
 
 	.include "data/maps/BelowWet/scripts.inc"
+
+	.include "data/maps/RealLifeTree/scripts.inc"

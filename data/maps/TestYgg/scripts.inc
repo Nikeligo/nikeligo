@@ -40,7 +40,9 @@ TestYgg_EventScript_LeaveForExpedition::
 	msgbox TestYgg_Text_AskExpedition, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq TestYgg_EventScript_NoExpedition
-	warpsilent MAP_LIFE_TREE, 31, 48
+	applymovement OBJ_EVENT_ID_PLAYER, Movement_UpOne	
+	waitmovement 0
+	warpsilent MAP_LIFE_TREE, 34, 48
 	waitstate
 	release
 	end
@@ -57,6 +59,10 @@ TestYgg_Text_AskExpedition::
 
 Movement_DownOne:
 	walk_down
+	step_end
+
+Movement_UpOne:
+	walk_up
 	step_end
 
 Script_BagIsFull::

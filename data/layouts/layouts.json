@@ -4440,6 +4440,16 @@
       "secondary_tileset": "gTileset_Slateport",
       "border_filepath": "data/layouts/BelowWet/border.bin",
       "blockdata_filepath": "data/layouts/BelowWet/map.bin"
+    },
+    {
+      "id": "LAYOUT_REAL_LIFE_TREE",
+      "name": "RealLifeTree_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Petalburg",
+      "border_filepath": "data/layouts/RealLifeTree/border.bin",
+      "blockdata_filepath": "data/layouts/RealLifeTree/map.bin"
     }
   ]
 }
