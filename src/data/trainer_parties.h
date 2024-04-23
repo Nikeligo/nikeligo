@@ -39,15 +39,15 @@ static const struct TrainerMon sParty_FireGymOne[] = {
     .lvl = 19,
     .species = SPECIES_QUILAVA,
 	.heldItem = ITEM_SALAC_BERRY,
-	.moves = {MOVE_TEMPER_FLARE, MOVE_FLAME_WHEEL, MOVE_WILL_O_WISP, MOVE_QUICK_ATTACK},
+	.moves = {MOVE_TAKE_DOWN, MOVE_FLAME_WHEEL, MOVE_WILL_O_WISP, MOVE_QUICK_ATTACK},
 	.ability = ABILITY_BLAZE
     },
 	{
 	.iv = 16,
     .lvl = 19,
     .species = SPECIES_BRAIXEN,
-	.heldItem = ITEM_SITRUS_BERRY,
-	.moves = {MOVE_CALM_MIND, MOVE_STORED_POWER, MOVE_FOUL_PLAY, MOVE_BURNING_JEALOUSY},
+	.heldItem = ITEM_ORAN_BERRY,
+	.moves = {MOVE_CALM_MIND, MOVE_PSYBEAM, MOVE_FIRE_SPIN, MOVE_BURNING_JEALOUSY},
 	.ability = ABILITY_MAGIC_GUARD
     },
 	{
@@ -60,14 +60,46 @@ static const struct TrainerMon sParty_FireGymOne[] = {
     }
 };
 
-static const struct TrainerMon sParty_GruntAquaHideout2[] = {
+static const struct TrainerMon sParty_WaterGymOne[] = {
     {
-    .lvl = 31,
-    .species = SPECIES_ZUBAT,
+	.iv = 16,
+    .lvl = 19,
+    .species = SPECIES_DEWOTT,
+	.heldItem = ITEM_MUSCLE_BAND,
+	.moves = {MOVE_RAZOR_SHELL, MOVE_AQUA_JET, MOVE_FLIP_TURN, MOVE_AERIAL_ACE},
+	.ability = ABILITY_SHELL_ARMOR
     },
-    {
-    .lvl = 31,
-    .species = SPECIES_CARVANHA,
+	{
+	.iv = 16,
+    .lvl = 19,
+    .species = SPECIES_PRINPLUP,
+	.heldItem = ITEM_WISE_GLASSES,
+	.moves = {MOVE_CHILLING_WATER, MOVE_BUBBLE_BEAM, MOVE_WHIRLPOOL, MOVE_ICY_WIND},
+	.ability = ABILITY_COMPETITIVE
+    },
+	{
+	.iv = 16,
+    .lvl = 19,
+    .species = SPECIES_BRIONNE,
+	.heldItem = ITEM_METRONOME,
+	.moves = {MOVE_ECHOED_VOICE, MOVE_SING},
+	.ability = ABILITY_LIQUID_VOICE
+    },
+	{
+	.iv = 16,
+    .lvl = 19,
+    .species = SPECIES_WARTORTLE,
+	.heldItem = ITEM_LEFTOVERS,
+	.moves = {MOVE_AQUA_JET, MOVE_FAKE_OUT, MOVE_PROTECT, MOVE_MUDDY_WATER},
+	.ability = ABILITY_RAIN_DISH
+    },
+	{
+	.iv = 16,
+    .lvl = 20,
+    .species = SPECIES_VAPOREON,
+	.heldItem = ITEM_SITRUS_BERRY,
+	.moves = {MOVE_ICE_BEAM, MOVE_SCALD, MOVE_AQUA_RING, MOVE_QUICK_ATTACK},
+	.ability = ABILITY_HYDRATION
     }
 };
 

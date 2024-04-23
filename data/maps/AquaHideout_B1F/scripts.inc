@@ -74,17 +74,17 @@ AquaHideout_B1F_EventScript_DefeatedElectrode2::
 	goto Common_EventScript_RemoveStaticPokemon
 	end
 
-AquaHideout_B1F_EventScript_Grunt2::
-	trainerbattle_single TRAINER_GRUNT_AQUA_HIDEOUT_2, AquaHideout_B1F_Text_Grunt2Intro, AquaHideout_B1F_Text_Grunt2Defeat, AquaHideout_B1F_EventScript_Grunt2Defeated
-	msgbox AquaHideout_B1F_Text_Grunt2PostBattle, MSGBOX_AUTOCLOSE
-	end
+//AquaHideout_B1F_EventScript_Grunt2::
+//	trainerbattle_single TRAINER_GRUNT_AQUA_HIDEOUT_2, AquaHideout_B1F_Text_Grunt2Intro, AquaHideout_B1F_Text_Grunt2Defeat, AquaHideout_B1F_EventScript_Grunt2Defeated
+//	msgbox AquaHideout_B1F_Text_Grunt2PostBattle, MSGBOX_AUTOCLOSE
+//	end
 
-AquaHideout_B1F_EventScript_Grunt2Defeated::
-	special PlayerFaceTrainerAfterBattle
-	waitmovement 0
-	msgbox AquaHideout_B1F_Text_Grunt2PostBattle, MSGBOX_DEFAULT
-	release
-	end
+//AquaHideout_B1F_EventScript_Grunt2Defeated::
+//	special PlayerFaceTrainerAfterBattle
+//	waitmovement 0
+//	msgbox AquaHideout_B1F_Text_Grunt2PostBattle, MSGBOX_DEFAULT
+//	release
+//	end
 
 AquaHideout_B1F_EventScript_Grunt3::
 	trainerbattle_single TRAINER_GRUNT_AQUA_HIDEOUT_3, AquaHideout_B1F_Text_Grunt3Intro, AquaHideout_B1F_Text_Grunt3Defeat, AquaHideout_B1F_EventScript_Grunt3Defeated
@@ -106,19 +106,19 @@ AquaHideout_B1F_EventScript_Grunt7::
 	msgbox AquaHideout_B1F_Text_Grunt7PostBattle, MSGBOX_AUTOCLOSE
 	end
 
-AquaHideout_B1F_Text_Grunt2Intro:
-	.string "If you want to know the secret about\n"
-	.string "our HIDEOUT, you have me to beat!$"
+//AquaHideout_B1F_Text_Grunt2Intro:
+//	.string "If you want to know the secret about\n"
+//	.string "our HIDEOUT, you have me to beat!$"
 
-AquaHideout_B1F_Text_Grunt2Defeat:
-	.string "I can't win at all…$"
+//AquaHideout_B1F_Text_Grunt2Defeat:
+//	.string "I can't win at all…$"
 
-AquaHideout_B1F_Text_Grunt2PostBattle:
-	.string "Our HIDEOUT's secret?\p"
-	.string "Well, let's just say…\n"
-	.string "There's a submarine at the far end!\p"
-	.string "But, by now…\n"
-	.string "Kekekeke…$"
+//AquaHideout_B1F_Text_Grunt2PostBattle:
+//	.string "Our HIDEOUT's secret?\p"
+//	.string "Well, let's just say…\n"
+//	.string "There's a submarine at the far end!\p"
+//	.string "But, by now…\n"
+//	.string "Kekekeke…$"
 
 AquaHideout_B1F_Text_Grunt3Intro:
 	.string "Fuel supply loaded A-OK!\n"
