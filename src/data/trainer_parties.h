@@ -54,7 +54,7 @@ static const struct TrainerMon sParty_FireGymOne[] = {
 	.iv = 16,
     .lvl = 20,
     .species = SPECIES_FLAREON,
-	.heldItem = ITEM_TOXIC_ORB,
+	.heldItem = ITEM_FROST_ORB,
 	.moves = {MOVE_FACADE, MOVE_FIRE_FANG, MOVE_TEMPER_FLARE, MOVE_TRAILBLAZE},
 	.ability = ABILITY_GUTS
     }
