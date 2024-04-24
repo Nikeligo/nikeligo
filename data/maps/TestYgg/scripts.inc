@@ -42,7 +42,7 @@ TestYgg_EventScript_LeaveForExpedition::
 	goto_if_eq TestYgg_EventScript_NoExpedition
 	applymovement OBJ_EVENT_ID_PLAYER, Movement_UpOne	
 	waitmovement 0
-	warpsilent MAP_LIFE_TREE, 34, 48
+	warpsilent MAP_LIFE_TREE, 15, 25
 	waitstate
 	release
 	end
@@ -136,6 +136,56 @@ TestYgg_Text_WaterGymOneDefeat:
 
 TestYgg_Text_WaterGymOnePostBattle:
 	.string "Nice.$"
+
+TestYgg_EventScript_GrassGymOne::
+	msgbox TestYgg_Text_GrassGymOneYesNo, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq TestYgg_EventScript_PlayerAnsweredNo
+	setvar VAR_UNUSED_0x40F7 3
+	trainerbattle_single TRAINER_GRASSGYMONE, TestYgg_Text_GrassGymOneIntro, TestYgg_Text_GrassGymOneDefeat
+	msgbox TestYgg_Text_GrassGymOnePostBattle, MSGBOX_AUTOCLOSE
+	end
+
+
+TestYgg_Text_GrassGymOneYesNo:
+	.string "Fight the grass\n"
+	.string "gym?$"
+
+
+TestYgg_Text_GrassGymOneIntro:
+	.string "GRASHH$"
+
+TestYgg_Text_GrassGymOneDefeat:
+	.string "DAMN$"
+
+TestYgg_Text_GrassGymOnePostBattle:
+	.string "Nice.$"
+
+
+TestYgg_EventScript_DragonGym::
+	msgbox TestYgg_Text_DragonGymYesNo, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq TestYgg_EventScript_PlayerAnsweredNo
+	trainerbattle_single TRAINER_DRAGONGYM, TestYgg_Text_DragonGymIntro, TestYgg_Text_DragonGymDefeat
+	msgbox TestYgg_Text_DragonGymPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+
+TestYgg_Text_DragonGymYesNo:
+	.string "Fight the dragon\n"
+	.string "gym?$"
+
+
+TestYgg_Text_DragonGymIntro:
+	.string "RAWR$"
+
+TestYgg_Text_DragonGymDefeat:
+	.string "DAMN$"
+
+TestYgg_Text_DragonGymPostBattle:
+	.string "Nice.$"
+
+
 
 
 

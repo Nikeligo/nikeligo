@@ -1080,3 +1080,9 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/BelowWet/scripts.inc"
 
 	.include "data/maps/RealLifeTree/scripts.inc"
+
+	.include "data/maps/WaterArea/scripts.inc"
+
+	.include "data/maps/FireZone/scripts.inc"
+
+	.include "data/maps/ForestPlace/scripts.inc"

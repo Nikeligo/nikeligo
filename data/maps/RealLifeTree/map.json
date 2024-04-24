@@ -15,8 +15,23 @@
   "connections": [
     {
       "map": "MAP_LIFE_TREE",
-      "offset": -20,
+      "offset": 1,
       "direction": "down"
+    },
+    {
+      "map": "MAP_WATER_AREA",
+      "offset": 0,
+      "direction": "right"
+    },
+    {
+      "map": "MAP_FIRE_ZONE",
+      "offset": 0,
+      "direction": "left"
+    },
+    {
+      "map": "MAP_FOREST_PLACE",
+      "offset": 2,
+      "direction": "up"
     }
   ],
   "object_events": [

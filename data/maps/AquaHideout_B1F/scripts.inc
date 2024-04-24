@@ -86,15 +86,15 @@ AquaHideout_B1F_EventScript_DefeatedElectrode2::
 //	release
 //	end
 
-AquaHideout_B1F_EventScript_Grunt3::
-	trainerbattle_single TRAINER_GRUNT_AQUA_HIDEOUT_3, AquaHideout_B1F_Text_Grunt3Intro, AquaHideout_B1F_Text_Grunt3Defeat, AquaHideout_B1F_EventScript_Grunt3Defeated
-	msgbox AquaHideout_B1F_Text_Grunt3PostBattle, MSGBOX_AUTOCLOSE
-	end
+//AquaHideout_B1F_EventScript_Grunt3::
+//	trainerbattle_single TRAINER_GRUNT_AQUA_HIDEOUT_3, AquaHideout_B1F_Text_Grunt3Intro, AquaHideout_B1F_Text_Grunt3Defeat, AquaHideout_B1F_EventScript_Grunt3Defeated
+//	msgbox AquaHideout_B1F_Text_Grunt3PostBattle, MSGBOX_AUTOCLOSE
+//	end
 
-AquaHideout_B1F_EventScript_Grunt3Defeated::
-	msgbox AquaHideout_B1F_Text_Grunt3PostBattle, MSGBOX_DEFAULT
-	release
-	end
+//AquaHideout_B1F_EventScript_Grunt3Defeated::
+//	msgbox AquaHideout_B1F_Text_Grunt3PostBattle, MSGBOX_DEFAULT
+//	release
+//	end
 
 AquaHideout_B1F_EventScript_Grunt5::
 	trainerbattle_single TRAINER_GRUNT_AQUA_HIDEOUT_5, AquaHideout_B1F_Text_Grunt5Intro, AquaHideout_B1F_Text_Grunt5Defeat
@@ -120,19 +120,19 @@ AquaHideout_B1F_EventScript_Grunt7::
 //	.string "But, by now…\n"
 //	.string "Kekekeke…$"
 
-AquaHideout_B1F_Text_Grunt3Intro:
-	.string "Fuel supply loaded A-OK!\n"
-	.string "In-cruise snacks loaded A-OK!\p"
-	.string "Nothing left to do but KO a pesky\n"
-	.string "meddler!$"
+//AquaHideout_B1F_Text_Grunt3Intro:
+//	.string "Fuel supply loaded A-OK!\n"
+//	.string "In-cruise snacks loaded A-OK!\p"
+//	.string "Nothing left to do but KO a pesky\n"
+//	.string "meddler!$"
 
-AquaHideout_B1F_Text_Grunt3Defeat:
-	.string "I took a serious licking!$"
+//AquaHideout_B1F_Text_Grunt3Defeat:
+//	.string "I took a serious licking!$"
 
-AquaHideout_B1F_Text_Grunt3PostBattle:
-	.string "Humph!\n"
-	.string "This was supposed to happen!\p"
-	.string "My mission was to just hold you up!$"
+//AquaHideout_B1F_Text_Grunt3PostBattle:
+//	.string "Humph!\n"
+//	.string "This was supposed to happen!\p"
+//	.string "My mission was to just hold you up!$"
 
 AquaHideout_B1F_Text_Grunt5Intro:
 	.string "Yawn… Keeping watch over the\n"

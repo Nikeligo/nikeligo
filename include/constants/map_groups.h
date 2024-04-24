@@ -67,6 +67,9 @@
 #define MAP_LIFE_TREE           (58 | (0 << 8))
 #define MAP_BELOW_WET           (59 | (0 << 8))
 #define MAP_REAL_LIFE_TREE      (60 | (0 << 8))
+#define MAP_WATER_AREA          (61 | (0 << 8))
+#define MAP_FIRE_ZONE           (62 | (0 << 8))
+#define MAP_FOREST_PLACE        (63 | (0 << 8))
 
 // gMapGroup_IndoorLittleroot
 #define MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_1F    (0 | (1 << 8))

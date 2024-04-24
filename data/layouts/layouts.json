@@ -4424,8 +4424,8 @@
     {
       "id": "LAYOUT_LIFE_TREE",
       "name": "LifeTree_Layout",
-      "width": 60,
-      "height": 50,
+      "width": 43,
+      "height": 26,
       "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_Rustboro",
       "border_filepath": "data/layouts/LifeTree/border.bin",
@@ -4444,12 +4444,42 @@
     {
       "id": "LAYOUT_REAL_LIFE_TREE",
       "name": "RealLifeTree_Layout",
+      "width": 25,
+      "height": 25,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Rustboro",
+      "border_filepath": "data/layouts/RealLifeTree/border.bin",
+      "blockdata_filepath": "data/layouts/RealLifeTree/map.bin"
+    },
+    {
+      "id": "LAYOUT_WATER_AREA",
+      "name": "WaterArea_Layout",
+      "width": 20,
+      "height": 22,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Rustboro",
+      "border_filepath": "data/layouts/WaterArea/border.bin",
+      "blockdata_filepath": "data/layouts/WaterArea/map.bin"
+    },
+    {
+      "id": "LAYOUT_FIRE_ZONE",
+      "name": "FireZone_Layout",
       "width": 20,
       "height": 20,
       "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_Petalburg",
-      "border_filepath": "data/layouts/RealLifeTree/border.bin",
-      "blockdata_filepath": "data/layouts/RealLifeTree/map.bin"
+      "secondary_tileset": "gTileset_Rustboro",
+      "border_filepath": "data/layouts/FireZone/border.bin",
+      "blockdata_filepath": "data/layouts/FireZone/map.bin"
+    },
+    {
+      "id": "LAYOUT_FOREST_PLACE",
+      "name": "ForestPlace_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Rustboro",
+      "border_filepath": "data/layouts/ForestPlace/border.bin",
+      "blockdata_filepath": "data/layouts/ForestPlace/map.bin"
     }
   ]
 }

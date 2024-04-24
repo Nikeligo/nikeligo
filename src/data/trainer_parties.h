@@ -20,7 +20,7 @@ static const struct TrainerMon sParty_TimmyTurner[] = {
 static const struct TrainerMon sParty_FireGymOne[] = {
     {
 	.iv = 16,
-    .lvl = 19,
+    .lvl = 20,
     .species = SPECIES_TORRACAT,
 	.heldItem = ITEM_MUSCLE_BAND,
 	.moves = {MOVE_FAKE_OUT, MOVE_PARTING_SHOT, MOVE_FIRE_FANG, MOVE_BITE},
@@ -28,7 +28,7 @@ static const struct TrainerMon sParty_FireGymOne[] = {
     },
 	{
 	.iv = 16,
-    .lvl = 19,
+    .lvl = 20,
     .species = SPECIES_CHARMELEON,
 	.heldItem = ITEM_WISE_GLASSES,
 	.moves = {MOVE_FIRE_SPIN, MOVE_INCINERATE, MOVE_DRAGON_BREATH, MOVE_ANCIENT_POWER},
@@ -36,7 +36,7 @@ static const struct TrainerMon sParty_FireGymOne[] = {
     },
 	{
 	.iv = 16,
-    .lvl = 19,
+    .lvl = 20,
     .species = SPECIES_QUILAVA,
 	.heldItem = ITEM_SALAC_BERRY,
 	.moves = {MOVE_TAKE_DOWN, MOVE_FLAME_WHEEL, MOVE_WILL_O_WISP, MOVE_QUICK_ATTACK},
@@ -44,9 +44,9 @@ static const struct TrainerMon sParty_FireGymOne[] = {
     },
 	{
 	.iv = 16,
-    .lvl = 19,
+    .lvl = 20,
     .species = SPECIES_BRAIXEN,
-	.heldItem = ITEM_ORAN_BERRY,
+	.heldItem = ITEM_SITRUS_BERRY,
 	.moves = {MOVE_CALM_MIND, MOVE_PSYBEAM, MOVE_FIRE_SPIN, MOVE_BURNING_JEALOUSY},
 	.ability = ABILITY_MAGIC_GUARD
     },
@@ -63,7 +63,7 @@ static const struct TrainerMon sParty_FireGymOne[] = {
 static const struct TrainerMon sParty_WaterGymOne[] = {
     {
 	.iv = 16,
-    .lvl = 19,
+    .lvl = 20,
     .species = SPECIES_DEWOTT,
 	.heldItem = ITEM_MUSCLE_BAND,
 	.moves = {MOVE_RAZOR_SHELL, MOVE_AQUA_JET, MOVE_FLIP_TURN, MOVE_AERIAL_ACE},
@@ -71,7 +71,7 @@ static const struct TrainerMon sParty_WaterGymOne[] = {
     },
 	{
 	.iv = 16,
-    .lvl = 19,
+    .lvl = 20,
     .species = SPECIES_PRINPLUP,
 	.heldItem = ITEM_WISE_GLASSES,
 	.moves = {MOVE_CHILLING_WATER, MOVE_BUBBLE_BEAM, MOVE_WHIRLPOOL, MOVE_ICY_WIND},
@@ -79,7 +79,7 @@ static const struct TrainerMon sParty_WaterGymOne[] = {
     },
 	{
 	.iv = 16,
-    .lvl = 19,
+    .lvl = 20,
     .species = SPECIES_BRIONNE,
 	.heldItem = ITEM_METRONOME,
 	.moves = {MOVE_ECHOED_VOICE, MOVE_SING},
@@ -87,7 +87,7 @@ static const struct TrainerMon sParty_WaterGymOne[] = {
     },
 	{
 	.iv = 16,
-    .lvl = 19,
+    .lvl = 20,
     .species = SPECIES_WARTORTLE,
 	.heldItem = ITEM_LEFTOVERS,
 	.moves = {MOVE_AQUA_JET, MOVE_FAKE_OUT, MOVE_PROTECT, MOVE_MUDDY_WATER},
@@ -103,17 +103,97 @@ static const struct TrainerMon sParty_WaterGymOne[] = {
     }
 };
 
-static const struct TrainerMon sParty_GruntAquaHideout3[] = {
+static const struct TrainerMon sParty_GrassGymOne[] = {
     {
-    .lvl = 32,
-    .species = SPECIES_ZUBAT,
+	.iv = 16,
+    .lvl = 20,
+    .species = SPECIES_BAYLEEF,
+	.heldItem = ITEM_LIGHT_CLAY,
+	.moves = {MOVE_REFLECT, MOVE_LIGHT_SCREEN, MOVE_KNOCK_OFF, MOVE_GRASSY_GLIDE},
+	.ability = ABILITY_OVERGROW
+    },
+	{
+	.iv = 16,
+    .lvl = 20,
+    .species = SPECIES_SERVINE,
+	.heldItem = ITEM_SITRUS_BERRY,
+	.moves = {MOVE_GLARE, MOVE_LEAF_TORNADO, MOVE_AERIAL_ACE, MOVE_SYNTHESIS},
+	.ability = ABILITY_CONTRARY
+    },
+	{
+	.iv = 16,
+    .lvl = 20,
+    .species = SPECIES_GROTLE,
+	.heldItem = ITEM_WHITE_HERB,
+	.moves = {MOVE_SHELL_SMASH, MOVE_SMACK_DOWN, MOVE_GRASSY_GLIDE, MOVE_MEGA_DRAIN},
+	.ability = ABILITY_SHELL_ARMOR
+    },
+	{
+	.iv = 16,
+    .lvl = 20,
+    .species = SPECIES_GROVYLE,
+	.heldItem = ITEM_GRASSY_SEED,
+	.moves = {MOVE_SEED_BOMB, MOVE_ROCK_TOMB, MOVE_DOUBLE_KICK, MOVE_ACROBATICS},
+	.ability = ABILITY_UNBURDEN
+    },
+	{
+	.iv = 16,
+    .lvl = 20,
+    .species = SPECIES_LEAFEON,
+	.heldItem = ITEM_ASSAULT_VEST,
+	.moves = {MOVE_LEAF_BLADE, MOVE_KNOCK_OFF, MOVE_X_SCISSOR, MOVE_GRASSY_GLIDE},
+	.ability = ABILITY_LEAF_GUARD
     }
 };
 
-static const struct TrainerMon sParty_GruntAquaHideout4[] = {
+static const struct TrainerMon sParty_DragonGym[] = {
     {
-    .lvl = 32,
-    .species = SPECIES_CARVANHA,
+	.iv = 16,
+    .lvl = 12,
+    .species = SPECIES_GIBLE,
+	.heldItem = ITEM_ROCKY_HELMET,
+	.moves = {MOVE_STEALTH_ROCK, MOVE_DRAGON_BREATH, MOVE_BULLDOZE, MOVE_FACADE},
+	.ability = ABILITY_ROUGH_SKIN
+    },
+	{
+	.iv = 16,
+    .lvl = 12,
+    .species = SPECIES_GOOMY,
+	.heldItem = ITEM_LEFTOVERS,
+	.moves = {MOVE_DRAGON_BREATH, MOVE_CHILLING_WATER, MOVE_SHOCK_WAVE, MOVE_INFESTATION},
+	.ability = ABILITY_GOOEY
+    },
+	{
+	.iv = 16,
+    .lvl = 12,
+    .species = SPECIES_TYRUNT,
+	.heldItem = ITEM_MUSCLE_BAND,
+	.moves = {MOVE_BITE, MOVE_POISON_FANG, MOVE_ROCK_TOMB, MOVE_DRAGON_TAIL},
+	.ability = ABILITY_STRONG_JAW
+    },
+	{
+	.iv = 16,
+    .lvl = 12,
+    .species = SPECIES_APPLIN,
+	.heldItem = ITEM_ORAN_BERRY,
+	.moves = {MOVE_RECYCLE, MOVE_SUCKER_PUNCH, MOVE_POUNCE, MOVE_GRASSY_GLIDE},
+	.ability = ABILITY_RIPEN
+    },
+	{
+	.iv = 16,
+    .lvl = 12,
+    .species = SPECIES_NOIBAT,
+	.heldItem = ITEM_WISE_GLASSES,
+	.moves = {MOVE_DRAGON_PULSE, MOVE_AIR_CUTTER, MOVE_WATER_PULSE, MOVE_ABSORB},
+	.ability = ABILITY_INFILTRATOR
+    },
+	{
+	.iv = 16,
+    .lvl = 12,
+    .species = SPECIES_AXEW,
+	.heldItem = ITEM_SCOPE_LENS,
+	.moves = {MOVE_FOCUS_ENERGY, MOVE_DUAL_CHOP, MOVE_BITE, MOVE_BULLDOZE},
+	.ability = ABILITY_RIVALRY
     }
 };
 
